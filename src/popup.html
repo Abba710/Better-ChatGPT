@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body
+    class="bg-[#212121] w-full h-[100vh] overflow-hidden flex items-center justify-center"
+  >
+    <div
+      class="w-full h-full flex flex-col items-center justify-start px-8 py-10 gap-3.5"
+    >
+      <div
+        class="w-full h-[62px] bg-white/8 rounded-[8px] flex flex-row items-center justify-between relative p-3 gap-2"
+      >
+        <h1
+          class="font-raleway font-medium text-[16px] text-wrap text-white opacity-100"
+        >
+          You are an expert-level technical assistant with in-depth...
+        </h1>
+
+        <!-- From Uiverse.io by Uncannypotato69 -->
+        <label
+          class="cursor-pointer min-h-[22px] min-w-[52px] rounded-full select-none relative bg-white/20 peer-checked:bg-white transition-colors duration-300"
+        >
+          <!-- Hidden checkbox input -->
+          <input class="peer h-[16px] w-[16px] opacity-0" type="checkbox" />
+
+          <!-- Toggle circle -->
+          <span
+            class="absolute left-[3px] top-1/2 flex h-[16px] w-[16px] -translate-y-1/2 items-center justify-center rounded-full bg-[hsl(0,0%,50%)] duration-300 peer-checked:left-[calc(100%-19px)] peer-checked:bg-white"
+          ></span>
+
+          <!-- MANU text (shown when off) -->
+          <span
+            class="absolute right-[2px] top-1/2 -translate-y-1/2 font-worksans font-semibold text-[10px] text-white/20 pointer-events-none transition-opacity duration-300 peer-checked:opacity-0 opacity-100"
+          >
+            MANU
+          </span>
+
+          <!-- AUTO text (shown when on) -->
+          <span
+            class="absolute left-[5px] top-1/2 -translate-y-1/2 font-worksans font-semibold text-[10px] text-white pointer-events-none transition-opacity duration-300 opacity-0 peer-checked:opacity-100"
+          >
+            AUTO
+          </span>
+        </label>
+      </div>
+      <div
+        class="w-full mt-auto flex flex-row items-center justify-between relative p-3 gap-2"
+      >
+        <textarea
+          id="promptInput"
+          placeholder="Add prompt..."
+          class="w-full min-h-[56px] h-auto max-h-[500px] border-[1px] p-3 text-white rounded-[16px] border-[#424242] resize-none overflow-y-auto bg-transparent"
+        ></textarea>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Better СhatGPT",
+  "version": "0.0.1",
+  "description": "A Chrome extension to enhance the СhatGPT experience.",
+  "manifest_version": 3,
+  "permissions": ["sidePanel"],
+
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+
+  "side_panel": {
+    "default_path": "popup.html"
+  }
+}
