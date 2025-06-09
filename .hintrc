@@ -16,6 +16,12 @@
           "text-wrap: wrap"
         ]
       }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
     ]
   }
 }

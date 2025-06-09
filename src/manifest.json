@@ -3,11 +3,17 @@
   "version": "0.0.1",
   "description": "A Chrome extension to enhance the СhatGPT experience.",
   "manifest_version": 3,
-  "permissions": ["sidePanel"],
+  "permissions": ["sidePanel", "storage"],
 
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"]
+    }
+  ],
 
   "side_panel": {
     "default_path": "popup.html"
