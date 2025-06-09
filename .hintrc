@@ -13,7 +13,8 @@
           "color: color-mix(in srgb, #fff 20%, transparent)",
           "text-wrap",
           "background-color: color-mix(in srgb, #fff 20%, transparent)",
-          "text-wrap: wrap"
+          "text-wrap: wrap",
+          "text-wrap: nowrap"
         ]
       }
     ],
