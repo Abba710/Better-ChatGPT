@@ -1,8 +1,15 @@
 (function () {
-  let AUTOPROMPT = "";
+  console.log("Better GPT content script loaded");
+  let AUTOPROMPT = "ответь коротко";
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "loadDataInChat" && message.data) {
-      AUTOPROMPT = message.data;
+    console.log("Content script received message:", message);
+    if (message.action === "loadDataInChat") {
+      AUTOPROMPT = message.data.join(", ");
+      console.log(
+        "Received autoprompt:",
+        AUTOPROMPT,
+        Array.isArray(AUTOPROMPT)
+      );
     }
   });
   // Get the editable div where user types the prompt
@@ -20,8 +27,8 @@
     promptDiv.focus();
     let text = promptDiv.textContent || "";
 
-    if (!text.endsWith(AUTOPROMPT.trim())) {
-      promptDiv.textContent = text + AUTOPROMPT;
+    if (!text.endsWith(AUTOPROMPT)) {
+      promptDiv.textContent = text + " instruction: " + AUTOPROMPT;
 
       // Dispatch an input event so the ProseMirror editor recognizes the change
       const event = new InputEvent("input", { bubbles: true });

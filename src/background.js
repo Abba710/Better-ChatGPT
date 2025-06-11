@@ -4,12 +4,18 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "loadData" && message.data) {
-    if (sender.tab && sender.tab.id) {
-      chrome.tabs.sendMessage(sender.tab.id, {
+    getCurrentTabId().then((tabId) => {
+      console.log("Background received autoprompts:", message.data);
+      chrome.tabs.sendMessage(tabId, {
         action: "loadDataInChat",
         data: message.data,
       });
-      console.log("data", message.data);
-    }
+    });
   }
 });
+
+async function getCurrentTabId() {
+  let queryOptions = { active: true, lastFocusedWindow: true }; // Query options to find the last focused active tab
+  let [tab] = await chrome.tabs.query(queryOptions); // Get the tab that matches the query
+  return tab.id; // Return the ID of the tab
+}
