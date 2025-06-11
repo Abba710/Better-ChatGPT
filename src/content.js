@@ -1,45 +1,58 @@
-(function () {
+(async function () {
+  const PROMPT_KEY = "prompts";
+  let AUTOPROMPT = ""; // Holds the auto-prompt text
+
   console.log("Better GPT content script loaded");
-  let AUTOPROMPT = "ответь коротко";
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Content script received message:", message);
-    if (message.action === "loadDataInChat") {
-      AUTOPROMPT = message.data.join(", ");
-      console.log(
-        "Received autoprompt:",
-        AUTOPROMPT,
-        Array.isArray(AUTOPROMPT)
-      );
-    }
-  });
-  // Get the editable div where user types the prompt
+
+  // Load saved prompts from local storage
+  async function loadPrompts() {
+    const stored = await chrome.storage.local.get(PROMPT_KEY);
+    return stored[PROMPT_KEY] || [];
+  }
+
+  // Update AUTOPROMPT with current auto prompts
+  async function updateAutoprompt() {
+    const promptList = await loadPrompts();
+    AUTOPROMPT = promptFilter(promptList);
+    console.log("Loaded autoprompts:", AUTOPROMPT);
+  }
+
+  // Filter prompts marked as "auto" and join them into a string
+  function promptFilter(unfilteredPrompts) {
+    return unfilteredPrompts
+      .filter((prompt) => prompt.isAuto)
+      .map((prompt) => prompt.value)
+      .join(", ");
+  }
+
+  // Get the editable div where the user types the prompt
   function getPromptDiv() {
     return document.getElementById("prompt-textarea");
   }
 
-  // Get the send button element by its ID
+  // Get the send button element
   function getSendButton() {
     return document.getElementById("composer-submit-button");
   }
 
-  // Append the autoprompt text to the current prompt if it's not already there
+  // Append AUTOPROMPT to the current prompt if it's not already there
   function updatePromptWithAutoPrompt(promptDiv) {
     promptDiv.focus();
-    let text = promptDiv.textContent || "";
+    const currentText = promptDiv.textContent || "";
 
-    if (!text.endsWith(AUTOPROMPT)) {
-      promptDiv.textContent = text + " instruction: " + AUTOPROMPT;
+    if (!currentText.endsWith(AUTOPROMPT)) {
+      promptDiv.textContent = currentText + " instruction: " + AUTOPROMPT;
 
-      // Dispatch an input event so the ProseMirror editor recognizes the change
+      // Dispatch an input event so the editor recognizes the change
       const event = new InputEvent("input", { bubbles: true });
       promptDiv.dispatchEvent(event);
     }
   }
 
-  // Listen for Enter key press (without Shift)
+  // Handle Enter key press (without Shift)
   function onKeyDown(e) {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevent default Enter behavior (e.g., new line or submit)
+      e.preventDefault();
 
       const promptDiv = getPromptDiv();
       if (!promptDiv) return;
@@ -48,7 +61,6 @@
 
       const sendButton = getSendButton();
       if (sendButton) {
-        // Wait a short moment for the editor to update, then click send
         setTimeout(() => {
           sendButton.click();
         }, 50);
@@ -56,15 +68,56 @@
     }
   }
 
-  // Initialize: add event listener to the prompt div once page loads
+  // Initialize key listener
   function init() {
     const promptDiv = getPromptDiv();
     if (!promptDiv) return;
 
-    // Use capture phase to catch keydown event early
     promptDiv.addEventListener("keydown", onKeyDown, true);
   }
 
-  // Wait for the page to fully load, then initialize after a short delay
-  window.addEventListener("load", () => setTimeout(init, 1000));
+  // Watch for URL changes (e.g., switching between chats)
+  let lastUrl = location.href;
+
+  new MutationObserver(() => {
+    const currentUrl = location.href;
+    if (currentUrl !== lastUrl) {
+      lastUrl = currentUrl;
+      if (currentUrl.includes("/")) {
+        console.log("Chat changed:", currentUrl);
+        updateAutoprompt().then(() => {
+          waitForPromptDiv(init);
+        });
+      }
+    }
+  }).observe(document, { subtree: true, childList: true });
+
+  // Handle messages from the extension
+  chrome.storage.onChanged.addListener(() => {
+    updateAutoprompt().then(() => {
+      console.log("Autoprompt updated");
+    });
+  });
+
+  function waitForPromptDiv(callback) {
+    const observer = new MutationObserver(() => {
+      const promptDiv = getPromptDiv();
+      if (promptDiv) {
+        observer.disconnect();
+        callback(promptDiv);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  waitForPromptDiv(() => {
+    init();
+  });
+
+  // Initial setup after page load
+  window.addEventListener("load", async () => {
+    await updateAutoprompt();
+    init();
+  });
 })();

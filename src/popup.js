@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
         prompts.splice(index, 1); // Remove the prompt at current index
         await chrome.storage.local.set({ [PROMPT_KEY]: prompts });
         displayPrompts(); // Refresh the displayed list
-        sendPromptToBackground(); // Send updated autoprompts to background
       });
 
       // Create the list item element
@@ -95,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const prompts = await loadPrompts();
         prompts[index] = prompt; // Update the prompt at the same index
         await chrome.storage.local.set({ [PROMPT_KEY]: prompts });
-        await sendPromptToBackground(); // Send updated autoprompts to background
       });
 
       // Create the toggle circle element that moves left/right based on state
@@ -133,23 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
       list.appendChild(container);
     });
   }
-
-  async function sendPromptToBackground() {
-    const promptList = await loadPrompts();
-    const autoData = [];
-
-    promptList.forEach((prompt) => {
-      if (prompt.isAuto) {
-        autoData.push(prompt.value);
-      }
-    });
-
-    console.log("Sending autoprompts to background:", autoData);
-    // Send all autoprompts at once
-    chrome.runtime.sendMessage({ action: "loadData", data: autoData });
-  }
-
   // Call displayPrompts when the window loads
   window.onload = displayPrompts;
-  sendPromptToBackground();
 });
