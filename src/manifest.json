@@ -1,7 +1,7 @@
 {
   "name": "Auto Prompt",
   "version": "0.0.1",
-  "description": "🧠 Auto Prompts — Smart Prompt Management for AI Create, manage, and switch between manual and automatic AI prompts with ease. Clean interface, built-in instructions, and full control — all in one lightweight extension.",
+  "description": "🧠 Auto Prompt — Automatically add and manage AI prompts. Switch modes, clean UI, full control — all in one lightweight extension.",
   "manifest_version": 3,
   "permissions": ["sidePanel", "storage", "tabs"],
   "icons": {
@@ -12,6 +12,7 @@
   "background": {
     "service_worker": "background.js"
   },
+  "host_permissions": ["https://chatgpt.com/*"],
   "content_scripts": [
     {
       "matches": ["https://chatgpt.com/*"],
