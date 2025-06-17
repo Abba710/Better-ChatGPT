@@ -4,7 +4,11 @@
   "description": "🧠 Auto Prompts — Smart Prompt Management for AI Create, manage, and switch between manual and automatic AI prompts with ease. Clean interface, built-in instructions, and full control — all in one lightweight extension.",
   "manifest_version": 3,
   "permissions": ["sidePanel", "storage", "tabs"],
-
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
   "background": {
     "service_worker": "background.js"
   },

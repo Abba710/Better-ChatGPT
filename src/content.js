@@ -6,8 +6,13 @@
 
   // Load saved prompts from local storage
   async function loadPrompts() {
-    const stored = await chrome.storage.local.get(PROMPT_KEY);
-    return stored[PROMPT_KEY] || [];
+    try {
+      const stored = await chrome.storage.local.get(PROMPT_KEY);
+      return stored[PROMPT_KEY] || [];
+    } catch (error) {
+      console.error("Error loading prompts:", error);
+      return [];
+    }
   }
 
   // Update AUTOPROMPT with current auto prompts
