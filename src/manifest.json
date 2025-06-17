@@ -1,7 +1,7 @@
 {
-  "name": "Better СhatGPT",
+  "name": "Auto Prompt",
   "version": "0.0.1",
-  "description": "A Chrome extension to enhance the СhatGPT experience.",
+  "description": "🧠 Auto Prompts — Smart Prompt Management for AI Create, manage, and switch between manual and automatic AI prompts with ease. Clean interface, built-in instructions, and full control — all in one lightweight extension.",
   "manifest_version": 3,
   "permissions": ["sidePanel", "storage", "tabs"],
 
