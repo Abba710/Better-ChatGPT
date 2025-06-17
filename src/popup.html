@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./output.css" rel="stylesheet" />
     <title>Document</title>
+    <style>
+      /* Custom scrollbar styles */
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+        margin: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #373a40;
+        border-radius: 6px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #4a4d52;
+      }
+
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
   <body
     class="bg-[#212121] w-full h-[100vh] overflow-hidden flex items-center justify-center"
@@ -12,9 +37,17 @@
     <div
       class="w-full h-full flex flex-col items-center justify-start px-8 py-10 gap-3.5"
     >
-      <ul id="promtsList" class="w-full h-full flex flex-col gap-3.5">
-        <!-- here prompts list -->
-      </ul>
+      <h1
+        id="instriction"
+        class="font-raleway w-[100%] min-w-0 font-medium text-[16px] text-nowrap text-gray-500 opacity-100 white-space-nowrap text-overflow-ellipsis"
+      >
+        1. Add a prompt to the input field<br />2. Toggle the switch to AUTO<br />3.
+        Done — your instruction will be added<br />to every message you send
+      </h1>
+      <ul
+        id="promtsList"
+        class="w-full max-h-[500px] overflow-y-auto flex flex-col gap-3"
+      ></ul>
       <div
         class="w-full mt-auto flex flex-row items-center justify-between relative p-3 gap-2"
       >
@@ -25,6 +58,52 @@
         ></textarea>
       </div>
     </div>
+
+    <!-- Feedback Dialog -->
+    <div
+      id="feedbackDialog"
+      class="fixed inset-0 bg-black/50 z-50 items-center justify-center p-8 hidden"
+    >
+      <div
+        class="w-full max-w-md bg-[#25262b] rounded-2xl p-8 shadow-2xl border border-gray-700/30 transform transition-all duration-300 scale-95 opacity-0"
+      >
+        <h2
+          class="text-2xl text-white font-bold mb-4 text-center font-display"
+          data-i18n="app_feedback_title"
+        >
+          ⭐ Like the extension?
+        </h2>
+        <p
+          class="text-gray-300 text-lg text-center mb-8"
+          data-i18n="app_feedback_text"
+        >
+          We'd be grateful if you could leave a review!
+        </p>
+        <div class="space-y-4">
+          <button
+            id="feedbackReview"
+            class="w-full px-6 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-lg font-medium transition-all duration-300 shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 active:scale-95"
+            data-i18n="app_feedback_button_review"
+          >
+            Leave a review
+          </button>
+          <button
+            id="feedbackLater"
+            class="w-full px-6 py-4 bg-gray-700 hover:bg-gray-600 rounded-xl text-lg font-medium transition-all duration-300 hover:scale-105 active:scale-95"
+            data-i18n="app_feedback_button_later"
+          >
+            Later
+          </button>
+          <button
+            id="feedbackNever"
+            class="w-full px-6 py-4 bg-transparent hover:bg-gray-800 rounded-xl text-lg font-medium text-gray-400 hover:text-gray-300 transition-all duration-300"
+            data-i18n="app_feedback_button_never"
+          >
+            Don't show again
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
-  <script src="./popup.js"></script>
+  <script type="module" src="./popup.js"></script>
 </html>

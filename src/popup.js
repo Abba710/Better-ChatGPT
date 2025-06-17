@@ -1,7 +1,18 @@
+import { initializeFeedback, callFeedBack } from "./feedBack.js";
+
 const PROMPT_KEY = "prompts";
 
 document.addEventListener("DOMContentLoaded", function () {
   const promptInput = document.getElementById("promptInput");
+  const instruction = document.getElementById("instriction");
+
+  function changeVisibility(promptList) {
+    if (promptList.length > 0) {
+      instruction.classList.add("hidden");
+    } else {
+      instruction.classList.remove("hidden");
+    }
+  }
 
   // savePrompt when Enter pressed
   promptInput.addEventListener("keydown", async function (event) {
@@ -37,7 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
   async function displayPrompts() {
     // Load prompts from storage
     const promptList = await loadPrompts();
-
+    changeVisibility(promptList);
+    await callFeedBack(promptList); // Call feedback function with the current prompt list
     // Get the main list container
     const list = document.getElementById("promtsList");
     list.innerHTML = ""; // Clear the existing list content
@@ -132,5 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   // Call displayPrompts when the window loads
-  window.onload = displayPrompts;
+  window.onload = function () {
+    displayPrompts();
+    initializeFeedback();
+  };
 });
