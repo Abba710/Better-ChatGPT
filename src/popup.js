@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Append the container div to the main list
       list.appendChild(container);
+      container.scrollIntoView({ behavior: "smooth" }); // Scroll to the bottom
     });
   }
   // Call displayPrompts when the window loads
