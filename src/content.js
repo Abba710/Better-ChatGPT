@@ -10,7 +10,7 @@
       const stored = await chrome.storage.local.get(PROMPT_KEY);
       return stored[PROMPT_KEY] || [];
     } catch (error) {
-      console.error("Error loading prompts:", error);
+      chrome.runtime.sendMessage({ action: "reload_tab" });
       return [];
     }
   }

@@ -1,8 +1,9 @@
 {
   "name": "Auto Prompt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "🧠 Auto Prompt — Automatically add and manage AI prompts. Switch modes, clean UI, full control — all in one lightweight extension.",
   "manifest_version": 3,
+  "options_page": "options.html",
   "permissions": ["sidePanel", "storage", "tabs"],
   "icons": {
     "16": "images/icon16.png",
