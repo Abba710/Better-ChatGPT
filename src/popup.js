@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // savePrompt when Enter pressed
   promptInput.addEventListener("keydown", async function (event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       const prompt = promptInput.value.trim();
       if (prompt) {
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Create the heading element for the prompt text
       const h1 = document.createElement("h1");
       h1.className =
-        "font-raleway w-[70%] min-w-0 font-medium text-[16px] overflow-hidden text-white opacity-100 white-space-nowrap text-overflow-ellipsis";
+        "font-raleway max-w-[70%] max-h-[50px] min-w-0 font-medium text-[16px] overflow-hidden text-white opacity-100 white-space-nowrap text-overflow-ellipsis";
       h1.textContent = prompt.value;
 
       // Create the label element that will hold the toggle switch
