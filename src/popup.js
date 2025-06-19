@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     await callFeedBack(promptList); // Call feedback function with the current prompt list
     // Get the main list container
     const list = document.getElementById("promtsList");
+    const wasAtBottom =
+      list.scrollTop + list.clientHeight >= list.scrollHeight - 10;
     list.innerHTML = ""; // Clear the existing list content
 
     // Iterate over each prompt with its index
@@ -141,9 +143,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Append the container div to the main list
       list.appendChild(container);
-      container.scrollIntoView({ behavior: "smooth" }); // Scroll to the bottom
     });
+    // scroll to the last element
+    if (wasAtBottom && list.lastElementChild) {
+      list.lastElementChild.scrollIntoView({ behavior: "smooth" });
+    }
   }
+
   // Call displayPrompts when the window loads
   window.onload = function () {
     displayPrompts();
